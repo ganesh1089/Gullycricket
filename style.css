@@ -1,0 +1,196 @@
+body{
+  margin:0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* smooth fade feel */
+body *{
+  transition:0.2s ease;
+}
+
+.hidden{
+  display:none;
+}
+
+.setup,
+.container{
+  width:92%;
+  max-width:420px;
+  text-align:center;
+}
+
+/* ===== INPUT ===== */
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  outline:none;
+  background:#1f2937;
+  color:white;
+  box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+input:focus{
+  transform:scale(1.02);
+  background:#111827;
+}
+
+/* ===== START BUTTON ===== */
+.start-btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(34,197,94,0.3);
+}
+
+.start-btn:hover{
+  transform:scale(1.03);
+}
+
+/* ===== BOXES ===== */
+.score-box,
+.over-box,
+.innings-box,
+.batsman-box{
+  background:rgba(30,41,59,0.9);
+  padding:18px;
+  border-radius:16px;
+  margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* ===== SCORE ===== */
+#score{
+  font-size:50px;
+  margin:0;
+  letter-spacing:1px;
+  color:#22c55e;
+}
+
+#overs{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+/* ===== CURRENT OVER ===== */
+#currentOver{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  margin-top:10px;
+}
+
+#currentOver span{
+  background:#334155;
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:14px;
+  transform:scale(1);
+}
+
+#currentOver span:hover{
+  transform:scale(1.2);
+}
+
+/* ===== BUTTONS ===== */
+.buttons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+button{
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  color:white;
+  box-shadow:0 5px 10px rgba(0,0,0,0.25);
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+/* run buttons feel */
+button:nth-child(-n+6){
+  background:#1f2937;
+}
+
+/* special buttons */
+.wide{
+  background:linear-gradient(135deg,#f59e0b,#f97316);
+}
+
+.noball{
+  background:linear-gradient(135deg,#06b6d4,#0ea5e9);
+}
+
+.wicket{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+}
+
+.undo{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+.innings{
+  background:linear-gradient(135deg,#9333ea,#7c3aed);
+  grid-column:span 3;
+}
+
+/* ===== TABLE ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+th,td{
+  padding:8px;
+  text-align:center;
+}
+
+th{
+  background:#334155;
+  font-size:13px;
+}
+
+tr{
+  border-bottom:1px solid #475569;
+}
+
+/* striker highlight */
+.striker{
+  color:#22c55e;
+  font-weight:bold;
+}
+
+/* small glow effect */
+.container{
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
