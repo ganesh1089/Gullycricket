@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tap Cricket Scorer</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= SETUP SCREEN ================= -->
+
+<div class="setup" id="setupScreen">
+
+  <h1>🏏 Tap Cricket Scorer</h1>
+
+  <input type="text" id="team1" placeholder="Team 1 Name">
+
+  <input type="text" id="team2" placeholder="Team 2 Name">
+
+  <input type="number" id="totalOvers" placeholder="Total Overs">
+<input type="text" id="player1" placeholder="Striker (Opening Batsman 1)">
+
+<input type="text" id="player2" placeholder="Non-striker (Opening Batsman 2)">
+  <button class="start-btn" onclick="startMatch()">
+    Start Match
+  </button>
+
+</div>
+
+<!-- ================= MATCH SCREEN ================= -->
+
+<div class="container hidden" id="matchScreen">
+
+  <h1 id="matchTitle"></h1>
+
+  <div class="innings-box">
+    <h2 id="inningText">1st Innings</h2>
+    <p id="targetText"></p>
+  </div>
+
+  <!-- SCORE -->
+  <div class="score-box">
+    <h2 id="score">0/0</h2>
+    <p id="overs">0.0 Overs</p>
+  </div>
+<!-- BATSMAN STATS -->
+
+<div class="batsman-box">
+
+  <h3>Batsmen</h3>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>R</th>
+        <th>B</th>
+        <th>4s</th>
+        <th>6s</th>
+        <th>SR</th>
+      </tr>
+    </thead>
+
+    <tbody id="batsmanTable"></tbody>
+
+  </table>
+
+</div>
+  <!-- CURRENT OVER -->
+  <div class="over-box">
+    <h3>Current Over</h3>
+    <div id="currentOver"></div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="buttons">
+
+    <button onclick="addRun(0)">0</button>
+    <button onclick="addRun(1)">1</button>
+    <button onclick="addRun(2)">2</button>
+    <button onclick="addRun(3)">3</button>
+    <button onclick="addRun(4)">4</button>
+    <button onclick="addRun(6)">6</button>
+
+    <button class="wide" onclick="wideBall()">WD</button>
+
+    <button class="noball" onclick="noBall()">NB</button>
+
+    <button class="wicket" onclick="wicket()">W</button>
+
+    <button class="undo" onclick="undo()">UNDO</button>
+
+    <button class="innings" onclick="endInnings()">
+      END INNINGS
+    </button>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
