@@ -52,6 +52,8 @@ let currentBowler = {
   balls:0
 };
 
+let bowlers = [];
+
 // ================= SOUND =================
 
 let batSound = new Audio("sounds/bat.mp3");
@@ -500,7 +502,6 @@ function checkOver(){
   if(balls === 6){
 
     overs++;
-
     balls = 0;
 
     currentOver = [];
@@ -512,6 +513,40 @@ function checkOver(){
     strikerIndex = nonStrikerIndex;
 
     nonStrikerIndex = temp;
+
+    // save current bowler data
+
+    let existingBowler =
+      bowlers.find(
+        b => b.name === currentBowler.name
+      );
+
+    if(existingBowler){
+
+      existingBowler.runs += currentBowler.runs;
+
+      existingBowler.wickets += currentBowler.wickets;
+
+      existingBowler.balls += currentBowler.balls;
+
+    }else{
+
+      bowlers.push({
+        ...currentBowler
+      });
+    }
+
+    // new bowler
+
+    let newBowler =
+      prompt("Enter New Bowler Name");
+
+    currentBowler = {
+      name: newBowler || "Bowler",
+      runs:0,
+      wickets:0,
+      balls:0
+    };
   }
 
   if(overs === totalOvers){
@@ -558,20 +593,24 @@ function undo(){
 
 function endInnings(){
 
-  inningsData.push({
+ inningsData.push({
 
-    innings,
+  innings,
 
-    team: battingTeam,
+  team: battingTeam,
 
-    score: `${runs}/${wickets}`,
+  score: `${runs}/${wickets}`,
 
-    overs: `${overs}.${balls}`,
+  overs: `${overs}.${balls}`,
 
-    batsmen: JSON.parse(
-      JSON.stringify(batsmen)
-    )
-  });
+  batsmen: JSON.parse(
+    JSON.stringify(batsmen)
+  ),
+
+  bowlers: JSON.parse(
+    JSON.stringify(bowlers)
+  )
+});
 
   // first innings
 
@@ -702,17 +741,98 @@ function showSummary(){
 
     html += `
 
-      <div style="margin-bottom:20px;">
+      <div class="summary-box">
 
-        <h3>${inn.team}</h3>
+        <h2>
+          ${inn.team}
+        </h2>
 
-        <p>
+        <h3>
           ${inn.score}
           (${inn.overs} Overs)
-        </p>
+        </h3>
 
+        <h3>Batting</h3>
+
+        <table>
+
+          <tr>
+            <th>Name</th>
+            <th>R</th>
+            <th>B</th>
+            <th>4s</th>
+            <th>6s</th>
+          </tr>
+
+    `;
+
+    inn.batsmen.forEach(player=>{
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${player.name}
+            ${player.out ? "" : "*"}
+          </td>
+
+          <td>${player.runs}</td>
+
+          <td>${player.balls}</td>
+
+          <td>${player.fours}</td>
+
+          <td>${player.sixes}</td>
+
+        </tr>
+
+      `;
+    });
+
+    html += `
+
+        </table>
+
+        <h3 style="margin-top:20px;">
+          Bowling
+        </h3>
+
+        <table>
+
+          <tr>
+            <th>Name</th>
+            <th>O</th>
+            <th>R</th>
+            <th>W</th>
+          </tr>
+
+    `;
+
+    inn.bowlers.forEach(bowler=>{
+
+      html += `
+
+        <tr>
+
+          <td>${bowler.name}</td>
+
+          <td>
+            ${Math.floor(bowler.balls / 6)}.${bowler.balls % 6}
+          </td>
+
+          <td>${bowler.runs}</td>
+
+          <td>${bowler.wickets}</td>
+
+        </tr>
+
+      `;
+    });
+
+    html += `
+        </table>
       </div>
-
     `;
   });
 
@@ -749,7 +869,7 @@ function resetMatch(){
   inningsData = [];
 
   batsmen = [];
-
+bowlers = [];
   strikerIndex = 0;
 
   nonStrikerIndex = 1;
