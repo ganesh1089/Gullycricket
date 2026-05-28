@@ -1061,3 +1061,392 @@ tr:nth-child(even){
     font-size:14px;
   }
 }
+/* ================= ULTRA RESPONSIVE FIX ================= */
+
+html{
+  width:100%;
+  overflow-x:hidden;
+}
+
+body{
+  width:100%;
+  overflow-x:hidden;
+}
+
+/* ===== IMAGES / TABLES / DIVS ===== */
+
+img,
+table,
+div,
+section{
+  max-width:100%;
+}
+
+/* ===== CONTAINER ===== */
+
+.container,
+.setup{
+  width:100%;
+  max-width:1300px;
+  margin:auto;
+}
+
+/* ===== MATCH LAYOUT ===== */
+
+.match-layout{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.left-panel{
+  flex:1;
+  min-width:0;
+}
+
+.right-panel{
+  width:260px;
+  flex-shrink:0;
+}
+
+/* ================= LARGE TABLET ================= */
+
+@media(max-width:1024px){
+
+  .match-layout{
+    flex-direction:column;
+  }
+
+  .left-panel,
+  .right-panel{
+    width:100%;
+  }
+
+  .right-panel{
+    position:static;
+  }
+
+  #score{
+    font-size:52px;
+  }
+
+  table{
+    min-width:100%;
+  }
+}
+
+/* ================= TABLET ================= */
+
+@media(max-width:768px){
+
+  body{
+    padding:8px;
+  }
+
+  h1{
+    font-size:28px;
+    line-height:1.2;
+  }
+
+  .match-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .score-box,
+  .over-box,
+  .innings-box,
+  .batsman-box,
+  .rule-box,
+  .runrate-box,
+  .bowler-box,
+  .summary-box,
+  .scorecard-box,
+  .mini-box,
+  .live-card{
+    padding:12px;
+    border-radius:16px;
+    margin-bottom:10px;
+  }
+
+  #score{
+    font-size:44px;
+    line-height:1;
+  }
+
+  #overs{
+    font-size:12px;
+  }
+
+  .section-head{
+    font-size:14px;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  .buttons{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  button{
+    padding:11px 6px;
+    font-size:12px;
+    border-radius:12px;
+    min-height:44px;
+  }
+
+  .innings{
+    grid-column:span 3;
+  }
+
+  /* ===== RUN RATE ===== */
+
+  .runrate-box{
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .rr-card{
+    padding:10px;
+  }
+
+  #currentRR,
+  #requiredRR{
+    font-size:16px;
+    padding:7px;
+  }
+
+  /* ===== CURRENT OVER ===== */
+
+  #currentOver{
+    gap:6px;
+  }
+
+  #currentOver span{
+    min-width:28px;
+    padding:6px;
+    font-size:11px;
+    border-radius:10px;
+  }
+
+  /* ===== TABLE ===== */
+
+  .table-wrapper{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  table{
+    min-width:430px;
+  }
+
+  th{
+    font-size:10px;
+    padding:7px;
+  }
+
+  td{
+    font-size:10px;
+    padding:7px;
+  }
+
+  /* ===== RULE BOX ===== */
+
+  .rule-item{
+    padding:8px 10px;
+    gap:10px;
+  }
+
+  .rule-item span{
+    font-size:12px;
+  }
+
+  /* ===== CHECKBOX ===== */
+
+  .rule-item input[type="checkbox"]{
+    width:40px;
+    height:22px;
+  }
+
+  .rule-item input[type="checkbox"]::before{
+    width:16px;
+    height:16px;
+  }
+
+  .rule-item input[type="checkbox"]:checked::before{
+    transform:translateX(18px);
+  }
+
+  /* ===== BOWLER ===== */
+
+  #bowlerStats{
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  /* ===== OVER HISTORY ===== */
+
+  .over-line{
+    font-size:11px;
+    padding:7px 10px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:480px){
+
+  body{
+    padding:6px;
+  }
+
+  h1{
+    font-size:22px;
+    margin-bottom:12px;
+  }
+
+  .live-badge{
+    padding:5px 10px;
+    font-size:10px;
+  }
+
+  .score-box,
+  .over-box,
+  .innings-box,
+  .batsman-box,
+  .rule-box,
+  .runrate-box,
+  .bowler-box,
+  .summary-box,
+  .scorecard-box,
+  .mini-box,
+  .live-card{
+    padding:10px;
+    border-radius:14px;
+  }
+
+  #score{
+    font-size:36px;
+  }
+
+  #inningText{
+    font-size:16px;
+  }
+
+  #targetText{
+    font-size:12px;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  .buttons{
+    gap:6px;
+  }
+
+  button{
+    padding:10px 4px;
+    font-size:11px;
+    border-radius:10px;
+    min-height:42px;
+  }
+
+  /* ===== CURRENT OVER ===== */
+
+  #currentOver span{
+    min-width:24px;
+    padding:5px;
+    font-size:10px;
+  }
+
+  /* ===== TABLE ===== */
+
+  table{
+    min-width:380px;
+  }
+
+  th,
+  td{
+    font-size:9px;
+    padding:6px;
+  }
+
+  /* ===== INPUT ===== */
+
+  input{
+    padding:11px;
+    font-size:13px;
+    border-radius:14px;
+  }
+
+  /* ===== START BUTTON ===== */
+
+  .start-btn{
+    padding:13px;
+    font-size:15px;
+    border-radius:16px;
+  }
+
+  /* ===== RULE ===== */
+
+  .rule-title{
+    font-size:13px;
+  }
+
+  .rule-item{
+    padding:7px 8px;
+  }
+
+  .rule-item span{
+    font-size:11px;
+  }
+
+  /* ===== RUN RATE ===== */
+
+  .rr-card span{
+    font-size:10px;
+  }
+
+  #currentRR,
+  #requiredRR{
+    font-size:14px;
+    padding:6px;
+  }
+}
+
+/* ================= EXTRA SMALL DEVICES ================= */
+
+@media(max-width:340px){
+
+  h1{
+    font-size:18px;
+  }
+
+  #score{
+    font-size:30px;
+  }
+
+  button{
+    font-size:10px;
+    padding:8px 2px;
+  }
+
+  .buttons{
+    gap:4px;
+  }
+
+  table{
+    min-width:340px;
+  }
+
+  th,
+  td{
+    font-size:8px;
+    padding:5px;
+  }
+
+  .section-head{
+    font-size:12px;
+  }
+}
