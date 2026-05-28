@@ -41,17 +41,17 @@ let nextBatsmanNumber = 3;
 let countWideRuns = true;
 let countNoBallRuns = true;
 
-// ================= INNINGS SCORE STORAGE =================
+// ================= INNINGS STORAGE =================
 
 let inningsData = [];
 
 // ================= BOWLER =================
 
 let currentBowler = {
-  name:"",
-  runs:0,
-  wickets:0,
-  balls:0
+  name: "",
+  runs: 0,
+  wickets: 0,
+  balls: 0
 };
 
 let bowlers = [];
@@ -96,7 +96,7 @@ function createBatsman(name){
 
 // ================= START MATCH =================
 
-function startMatch() {
+function startMatch(){
 
   play(cheerSound);
 
@@ -170,7 +170,9 @@ function startMatch() {
 
 // ================= UPDATE UI =================
 
-function updateUI() {
+function updateUI(){
+
+  // SCORE
 
   document.getElementById("score")
     .innerText =
@@ -180,28 +182,35 @@ function updateUI() {
     .innerText =
     `${overs}.${balls} Overs`;
 
-  // current over
+  // CURRENT OVER
 
   let overHTML = "";
 
-  currentOver.forEach(ball => {
+  currentOver.forEach(ball=>{
 
-    overHTML += `<span>${ball}</span>`;
+    overHTML += `
+      <span>${ball}</span>
+    `;
   });
 
   document.getElementById("currentOver")
     .innerHTML = overHTML;
 
-  // target
+  // TARGET
 
   if(innings === 2){
 
     document.getElementById("targetText")
       .innerText =
       `Target: ${firstInningsScore + 1}`;
+
+  }else{
+
+    document.getElementById("targetText")
+      .innerText = "";
   }
 
-  // batsman table
+  // BATSMAN TABLE
 
   let batsmanHTML = "";
 
@@ -257,7 +266,7 @@ function updateUI() {
   document.getElementById("batsmanTable")
     .innerHTML = batsmanHTML;
 
-  // ================= CURRENT RUN RATE =================
+  // CURRENT RR
 
   let totalBalls =
     (overs * 6) + balls;
@@ -273,7 +282,7 @@ function updateUI() {
     .innerText =
     `CRR: ${currentRR}`;
 
-  // ================= REQUIRED RUN RATE =================
+  // REQUIRED RR
 
   if(innings === 2){
 
@@ -293,9 +302,14 @@ function updateUI() {
     document.getElementById("requiredRR")
       .innerText =
       `RRR: ${requiredRR}`;
+
+  }else{
+
+    document.getElementById("requiredRR")
+      .innerText = "";
   }
 
-  // ================= BOWLER STATS =================
+  // BOWLER
 
   let bowlerOvers =
     `${Math.floor(currentBowler.balls / 6)}.${currentBowler.balls % 6}`;
@@ -312,6 +326,59 @@ function updateUI() {
       <p>Wickets: ${currentBowler.wickets}</p>
 
     `;
+
+  // LIVE FIRST INNINGS SCORECARD
+
+  if(innings === 2){
+
+    let first = inningsData[0];
+
+    if(first){
+
+      let html = `
+
+        <div class="live-scorecard">
+
+          <h2>
+            1st Innings
+          </h2>
+
+          <h3>
+            ${first.team}
+            -
+            ${first.score}
+            (${first.overs})
+          </h3>
+
+          <div class="over-history">
+      `;
+
+      first.overHistory.forEach(over=>{
+
+        html += `
+
+          <div class="over-line">
+
+            <strong>
+              Over ${over.over}:
+            </strong>
+
+            ${over.balls.join(" | ")}
+
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+        </div>
+      `;
+
+      document.getElementById(
+        "firstInningsLive"
+      ).innerHTML = html;
+    }
+  }
 }
 
 // ================= SAVE HISTORY =================
@@ -327,7 +394,9 @@ function saveHistory(){
 
     currentOver:[...currentOver],
 
-    overHistory:[...overHistory],
+    overHistory:JSON.parse(
+      JSON.stringify(overHistory)
+    ),
 
     batsmen:JSON.parse(
       JSON.stringify(batsmen)
@@ -386,8 +455,6 @@ function addRun(run){
     play(cheerSound);
   }
 
-  // strike rotate
-
   if(run % 2 !== 0){
 
     let temp = strikerIndex;
@@ -429,8 +496,6 @@ function wicket(){
 
   currentBowler.wickets++;
 
-  // all out
-
   if(wickets === 10){
 
     updateUI();
@@ -467,38 +532,6 @@ function wicket(){
   checkWinner();
 }
 
-// ================= RETIRED =================
-
-function retiredOut(){
-
-  saveHistory();
-
-  batsmen[strikerIndex].out = true;
-
-  batsmen[strikerIndex].status =
-    "Retired Out";
-
-  wickets++;
-
-  let newName =
-    prompt(
-      `Enter Batsman ${nextBatsmanNumber} Name`
-    );
-
-  batsmen.push(
-    createBatsman(
-      newName || `Batsman ${nextBatsmanNumber}`
-    )
-  );
-
-  strikerIndex =
-    batsmen.length - 1;
-
-  nextBatsmanNumber++;
-
-  updateUI();
-}
-
 // ================= WIDE =================
 
 function wideBall(){
@@ -512,9 +545,13 @@ function wideBall(){
     runs++;
 
     currentBowler.runs++;
-  }
 
-  currentOver.push("WD");
+    currentOver.push("WD+1");
+
+  }else{
+
+    currentOver.push("WD");
+  }
 
   updateUI();
 }
@@ -534,19 +571,18 @@ function noBall(){
       )
     ) || 0;
 
-  runs += 1 + extraRun;
+  let nbRun =
+    countNoBallRuns ? 1 : 0;
 
-  currentBowler.runs += 1 + extraRun;
+  runs += nbRun + extraRun;
+
+  currentBowler.runs +=
+    nbRun + extraRun;
 
   let striker =
     batsmen[strikerIndex];
 
   striker.runs += extraRun;
-
-  if(extraRun > 0){
-
-    striker.balls++;
-  }
 
   if(extraRun === 4){
 
@@ -558,7 +594,11 @@ function noBall(){
     striker.sixes++;
   }
 
-  currentOver.push(`NB+${extraRun}`);
+  currentOver.push(
+    countNoBallRuns
+    ? `NB+${extraRun}`
+    : `NB(${extraRun})`
+  );
 
   updateUI();
 }
@@ -569,11 +609,14 @@ function checkOver(){
 
   if(balls === 6){
 
-    overs++;
+    overHistory.push({
 
-    overHistory.push(
-      `Over ${overs}: ${currentOver.join(" ")}`
-    );
+      over: overs + 1,
+
+      balls: [...currentOver]
+    });
+
+    overs++;
 
     balls = 0;
 
@@ -587,7 +630,7 @@ function checkOver(){
 
     nonStrikerIndex = temp;
 
-    // save current bowler data
+    // save current bowler
 
     let existingBowler =
       bowlers.find(
@@ -609,25 +652,32 @@ function checkOver(){
       });
     }
 
-    // new bowler
+    // innings khatam ho gayi to yahi return
+
+    if(overs >= totalOvers){
+
+      endInnings();
+
+      return;
+    }
+
+    // warna new bowler
 
     let newBowler =
       prompt("Enter New Bowler Name");
 
     currentBowler = {
+
       name: newBowler || "Bowler",
+
       runs:0,
+
       wickets:0,
+
       balls:0
     };
   }
-
-  if(overs === totalOvers){
-
-    endInnings();
-  }
 }
-
 // ================= UNDO =================
 
 function undo(){
@@ -670,7 +720,7 @@ function undo(){
 
 function endInnings(){
 
-  // save current bowler
+  // SAVE CURRENT BOWLER
 
   let existingBowler =
     bowlers.find(
@@ -692,30 +742,32 @@ function endInnings(){
     });
   }
 
- inningsData.push({
+  // SAVE INNINGS DATA
 
-  innings,
+  inningsData.push({
 
-  team: battingTeam,
+    innings,
 
-  score: `${runs}/${wickets}`,
+    team: battingTeam,
 
-  overs: `${overs}.${balls}`,
+    score: `${runs}/${wickets}`,
 
-  batsmen: JSON.parse(
-    JSON.stringify(batsmen)
-  ),
+    overs: `${overs}.${balls}`,
 
-  bowlers: JSON.parse(
-    JSON.stringify(bowlers)
-  ),
+    batsmen: JSON.parse(
+      JSON.stringify(batsmen)
+    ),
 
-  oversList: JSON.parse(
-    JSON.stringify(overHistory)
-  )
-});
+    bowlers: JSON.parse(
+      JSON.stringify(bowlers)
+    ),
 
-  // first innings
+    overHistory: JSON.parse(
+      JSON.stringify(overHistory)
+    )
+  });
+
+  // ================= FIRST INNINGS END =================
 
   if(innings === 1){
 
@@ -726,6 +778,8 @@ function endInnings(){
     battingTeam = team2;
 
     bowlingTeam = team1;
+
+    // RESET SCORE
 
     runs = 0;
 
@@ -743,12 +797,26 @@ function endInnings(){
 
     bowlers = [];
 
+    // ASK NEW BOWLER
+
+    let secondInningsBowler =
+      prompt(
+        `Enter Opening Bowler for ${bowlingTeam}`
+      );
+
     currentBowler = {
-      name:"",
+
+      name:
+        secondInningsBowler || "Bowler",
+
       runs:0,
+
       wickets:0,
+
       balls:0
     };
+
+    // ASK OPENERS
 
     let opener1 =
       prompt(
@@ -761,6 +829,7 @@ function endInnings(){
       );
 
     batsmen = [
+
       createBatsman(
         opener1 || "Batsman 1"
       ),
@@ -776,6 +845,8 @@ function endInnings(){
 
     nextBatsmanNumber = 3;
 
+    // UPDATE UI
+
     document.getElementById("inningText")
       .innerText = "2nd Innings";
 
@@ -788,8 +859,12 @@ function endInnings(){
     return;
   }
 
+  // ================= MATCH END =================
+
   checkWinner(true);
 }
+
+
 
 // ================= WINNER =================
 
@@ -797,6 +872,8 @@ function checkWinner(force = false){
 
   if(innings !== 2)
     return;
+
+  // chasing team won
 
   if(runs > firstInningsScore){
 
@@ -806,6 +883,39 @@ function checkWinner(force = false){
         `${battingTeam} won by ${10 - wickets} wickets`
       );
 
+      // SAVE FINAL INNINGS IF NOT SAVED
+      if(inningsData.length < 2){
+
+        inningsData.push({
+
+          innings,
+
+          team: battingTeam,
+
+          score: `${runs}/${wickets}`,
+
+          overs: `${overs}.${balls}`,
+
+          batsmen: JSON.parse(
+            JSON.stringify(batsmen)
+          ),
+
+          bowlers: JSON.parse(
+            JSON.stringify(bowlers)
+          ),
+
+          overHistory: JSON.parse(
+            JSON.stringify(overHistory)
+          )
+        });
+      }
+
+      document.getElementById("matchScreen")
+        .classList.add("hidden");
+
+      document.getElementById("summaryBox")
+        .classList.remove("hidden");
+
       showSummary();
 
     },100);
@@ -813,9 +923,42 @@ function checkWinner(force = false){
     return;
   }
 
-  if(force || overs === totalOvers){
+  // innings complete
+
+  if(
+    force ||
+    overs >= totalOvers ||
+    wickets >= 10
+  ){
 
     setTimeout(()=>{
+
+      // SAVE FINAL INNINGS IF NOT SAVED
+      if(inningsData.length < 2){
+
+        inningsData.push({
+
+          innings,
+
+          team: battingTeam,
+
+          score: `${runs}/${wickets}`,
+
+          overs: `${overs}.${balls}`,
+
+          batsmen: JSON.parse(
+            JSON.stringify(batsmen)
+          ),
+
+          bowlers: JSON.parse(
+            JSON.stringify(bowlers)
+          ),
+
+          overHistory: JSON.parse(
+            JSON.stringify(overHistory)
+          )
+        });
+      }
 
       if(runs < firstInningsScore){
 
@@ -823,17 +966,22 @@ function checkWinner(force = false){
           `${bowlingTeam} won by ${firstInningsScore - runs} runs`
         );
 
-      }else{
+      }else if(runs === firstInningsScore){
 
         alert("Match Draw");
       }
+
+      document.getElementById("matchScreen")
+        .classList.add("hidden");
+
+      document.getElementById("summaryBox")
+        .classList.remove("hidden");
 
       showSummary();
 
     },100);
   }
 }
-
 // ================= SUMMARY =================
 
 function showSummary(){
@@ -855,7 +1003,11 @@ function showSummary(){
           (${inn.overs} Overs)
         </h3>
 
-        <h3>Batting</h3>
+        <!-- ================= BATTING ================= -->
+
+        <h3>
+          Batting
+        </h3>
 
         <table>
 
@@ -867,7 +1019,6 @@ function showSummary(){
             <th>6s</th>
             <th>Status</th>
           </tr>
-
     `;
 
     inn.batsmen.forEach(player=>{
@@ -889,13 +1040,14 @@ function showSummary(){
           <td>${player.status}</td>
 
         </tr>
-
       `;
     });
 
     html += `
 
         </table>
+
+        <!-- ================= BOWLING ================= -->
 
         <h3 style="margin-top:20px;">
           Bowling
@@ -909,7 +1061,6 @@ function showSummary(){
             <th>R</th>
             <th>W</th>
           </tr>
-
     `;
 
     inn.bowlers.forEach(bowler=>{
@@ -929,12 +1080,14 @@ function showSummary(){
           <td>${bowler.wickets}</td>
 
         </tr>
-
       `;
     });
 
     html += `
+
         </table>
+
+        <!-- ================= OVER SUMMARY ================= -->
 
         <h3 style="margin-top:20px;">
           Over Summary
@@ -946,16 +1099,43 @@ function showSummary(){
           background:#0f172a;
           padding:15px;
           border-radius:12px;
+          color:white;
         ">
-
     `;
 
-    inn.oversList.forEach(over=>{
+    if(
+      inn.overHistory &&
+      inn.overHistory.length > 0
+    ){
+
+      inn.overHistory.forEach(over=>{
+
+        html += `
+
+          <p style="
+            margin-bottom:10px;
+            line-height:1.8;
+          ">
+
+            <strong>
+              Over ${over.over}:
+            </strong>
+
+            ${over.balls.join(" | ")}
+
+          </p>
+        `;
+      });
+
+    }else{
 
       html += `
-        <p>${over}</p>
+
+        <p>
+          No Over Data
+        </p>
       `;
-    });
+    }
 
     html += `
         </div>
@@ -964,16 +1144,28 @@ function showSummary(){
     `;
   });
 
+  // SUMMARY HTML
+
   document.getElementById("summaryContent")
     .innerHTML = html;
+
+  // HIDE MATCH SCREEN
 
   document.getElementById("matchScreen")
     .classList.add("hidden");
 
+  // SHOW SUMMARY SCREEN
+
   document.getElementById("summaryBox")
     .classList.remove("hidden");
-}
 
+  // SCROLL TOP
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
 // ================= RESET =================
 
 function resetMatch(){
@@ -1024,30 +1216,12 @@ function resetMatch(){
   document.getElementById("summaryBox")
     .classList.add("hidden");
 
-  document.getElementById("team1").value = "";
-
-  document.getElementById("team2").value = "";
-
-  document.getElementById("totalOvers").value = "";
-
-  document.getElementById("player1").value = "";
-
-  document.getElementById("player2").value = "";
-
-  document.getElementById("bowlerName").value = "";
-
-  document.getElementById("inningText")
-    .innerText = "1st Innings";
-
-  document.getElementById("targetText")
-    .innerText = "";
-
   updateUI();
 }
 
 // ================= PWA =================
 
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator){
 
   navigator.serviceWorker
     .register("/service-worker.js")
