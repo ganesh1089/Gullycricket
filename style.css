@@ -880,3 +880,184 @@ tr:nth-child(even){
     margin-bottom:8px;
   }
 }
+/* ================= MOBILE MATCH SCREEN FIX ================= */
+
+@media(max-width:768px){
+
+  body{
+    padding:6px;
+  }
+
+  .container{
+    width:100%;
+  }
+
+  .match-header{
+    flex-direction:column;
+    gap:8px;
+    align-items:flex-start;
+  }
+
+  .match-layout{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .left-panel,
+  .right-panel{
+    width:100%;
+  }
+
+  .right-panel{
+    position:static;
+  }
+
+  /* ===== CARDS ===== */
+
+  .score-box,
+  .over-box,
+  .innings-box,
+  .batsman-box,
+  .rule-box,
+  .runrate-box,
+  .bowler-box,
+  .summary-box,
+  .scorecard-box,
+  .mini-box,
+  .live-card{
+    padding:12px;
+    border-radius:16px;
+    margin-bottom:10px;
+  }
+
+  /* ===== SCORE ===== */
+
+  #score{
+    font-size:42px;
+    line-height:1;
+  }
+
+  #overs{
+    font-size:12px;
+  }
+
+  #inningText{
+    font-size:18px;
+  }
+
+  #targetText{
+    font-size:13px;
+  }
+
+  /* ===== RUN RATE ===== */
+
+  .runrate-box{
+    flex-direction:row;
+    gap:8px;
+  }
+
+  .rr-card{
+    padding:8px;
+    border-radius:12px;
+  }
+
+  #currentRR,
+  #requiredRR{
+    font-size:16px;
+    padding:6px;
+    margin-top:5px;
+  }
+
+  .rr-card span{
+    font-size:11px;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  .buttons{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  button{
+    padding:11px 5px;
+    font-size:12px;
+    border-radius:12px;
+    min-height:44px;
+  }
+
+  .innings{
+    grid-column:span 3;
+  }
+
+  /* ===== CURRENT OVER ===== */
+
+  #currentOver{
+    gap:6px;
+  }
+
+  #currentOver span{
+    min-width:28px;
+    padding:6px;
+    font-size:11px;
+    border-radius:10px;
+  }
+
+  /* ===== TABLE ===== */
+
+  .table-wrapper{
+    overflow-x:auto;
+  }
+
+  table{
+    min-width:430px;
+  }
+
+  th{
+    padding:7px;
+    font-size:10px;
+  }
+
+  td{
+    padding:7px;
+    font-size:10px;
+  }
+
+  /* ===== SECTION HEAD ===== */
+
+  .section-head{
+    font-size:14px;
+    margin-bottom:8px;
+  }
+
+  /* ===== BOWLER ===== */
+
+  #bowlerStats{
+    font-size:12px;
+    line-height:1.6;
+  }
+
+  /* ===== OVER HISTORY ===== */
+
+  .over-line{
+    padding:7px 10px;
+    font-size:11px;
+  }
+
+  /* ===== LIVE BADGE ===== */
+
+  .live-badge{
+    padding:6px 12px;
+    font-size:11px;
+  }
+
+  /* ===== SUMMARY ===== */
+
+  .summary-box h2{
+    font-size:18px;
+  }
+
+  .summary-box h3{
+    font-size:14px;
+  }
+}
