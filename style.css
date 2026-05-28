@@ -1,39 +1,25 @@
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#dbeafe,#f5d0fe,#fde68a);
-  background-size:300% 300%;
-  animation:bgMove 10s ease infinite;
+  background:
+  radial-gradient(circle at top left,#fbcfe8 0%,transparent 30%),
+  radial-gradient(circle at bottom right,#bfdbfe 0%,transparent 30%),
+  linear-gradient(135deg,#fdf2f8,#eef2ff,#fef9c3);
+  background-size:cover;
   color:#111827;
   min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
-  padding:20px 0;
-}
-
-/* ===== ANIMATED BG ===== */
-
-@keyframes bgMove{
-
-  0%{
-    background-position:0% 50%;
-  }
-
-  50%{
-    background-position:100% 50%;
-  }
-
-  100%{
-    background-position:0% 50%;
-  }
+  align-items:flex-start;
+  padding:14px;
+  overflow-x:hidden;
 }
 
 /* ===== GLOBAL ===== */
 
 body *{
-  transition:0.25s ease;
   box-sizing:border-box;
+  transition:0.25s ease;
 }
 
 .hidden{
@@ -42,9 +28,8 @@ body *{
 
 .setup,
 .container{
-  width:95%;
-  max-width:1050px;
-  text-align:center;
+  width:100%;
+  max-width:1200px;
 }
 
 /* ===== MATCH LAYOUT ===== */
@@ -57,10 +42,11 @@ body *{
 
 .left-panel{
   flex:1;
+  min-width:0;
 }
 
 .right-panel{
-  width:240px;
+  width:270px;
   position:sticky;
   top:10px;
 }
@@ -68,10 +54,13 @@ body *{
 /* ===== TITLE ===== */
 
 h1{
-  margin-bottom:22px;
+  text-align:center;
+  margin-bottom:20px;
   font-size:34px;
-  color:#111827;
-  text-shadow:0 4px 10px rgba(255,255,255,0.4);
+  font-weight:800;
+  background:linear-gradient(135deg,#2563eb,#9333ea,#ec4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 /* ===== INPUT ===== */
@@ -81,38 +70,38 @@ input{
   padding:14px;
   margin-bottom:12px;
   border:none;
-  border-radius:16px;
-  font-size:16px;
+  border-radius:18px;
+  font-size:15px;
   outline:none;
-  background:rgba(255,255,255,0.8);
+  background:rgba(255,255,255,0.85);
   color:#111827;
-  backdrop-filter:blur(10px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  backdrop-filter:blur(14px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
 }
 
 input:focus{
-  transform:scale(1.02);
+  transform:scale(1.01);
   border:2px solid #8b5cf6;
   background:white;
 }
 
-/* ===== START BUTTON ===== */
+/* ===== BUTTON ===== */
 
 .start-btn{
   width:100%;
   padding:15px;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   background:linear-gradient(135deg,#8b5cf6,#ec4899);
   color:white;
   font-size:18px;
-  font-weight:bold;
+  font-weight:700;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(236,72,153,0.35);
+  box-shadow:0 10px 25px rgba(168,85,247,0.35);
 }
 
 .start-btn:hover{
-  transform:translateY(-2px) scale(1.02);
+  transform:translateY(-2px);
 }
 
 /* ===== COMMON BOX ===== */
@@ -124,61 +113,61 @@ input:focus{
 .rule-box,
 .runrate-box,
 .bowler-box,
-.summary-box{
-  background:rgba(255,255,255,0.75);
+.summary-box,
+.scorecard-box{
+  background:rgba(255,255,255,0.72);
   backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,0.4);
-  padding:20px;
+  border:1px solid rgba(255,255,255,0.45);
+  padding:18px;
   border-radius:24px;
   margin-bottom:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  box-shadow:
+  0 10px 30px rgba(0,0,0,0.08),
+  inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
 /* ===== SCORE ===== */
 
 #score{
-  font-size:58px;
+  font-size:62px;
   margin:0;
-  letter-spacing:1px;
-  background:linear-gradient(135deg,#2563eb,#9333ea,#ec4899);
+  font-weight:800;
+  background:linear-gradient(135deg,#2563eb,#7c3aed,#ec4899);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  font-weight:800;
 }
 
 #overs{
-  color:#475569;
-  font-size:15px;
   margin-top:8px;
+  color:#475569;
   font-weight:600;
+  font-size:15px;
 }
 
 /* ===== RUN RATE ===== */
 
 .runrate-box{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
+  gap:12px;
   margin-top:15px;
-  font-weight:bold;
-  font-size:14px;
-  gap:10px;
+}
+
+#currentRR,
+#requiredRR{
+  flex:1;
+  padding:12px;
+  border-radius:16px;
+  color:white;
+  font-weight:700;
+  text-align:center;
 }
 
 #currentRR{
-  background:linear-gradient(135deg,#22c55e,#14b8a6);
-  color:white;
-  padding:10px 14px;
-  border-radius:14px;
-  flex:1;
+  background:linear-gradient(135deg,#14b8a6,#22c55e);
 }
 
 #requiredRR{
   background:linear-gradient(135deg,#f97316,#ef4444);
-  color:white;
-  padding:10px 14px;
-  border-radius:14px;
-  flex:1;
 }
 
 /* ===== CURRENT OVER ===== */
@@ -188,23 +177,21 @@ input:focus{
   flex-wrap:wrap;
   gap:10px;
   justify-content:center;
-  margin-top:10px;
+  margin-top:12px;
 }
 
 #currentOver span{
-  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-  color:white;
-  padding:9px 13px;
+  min-width:40px;
+  padding:10px;
   border-radius:14px;
-  font-size:14px;
-  min-width:38px;
-  text-align:center;
-  font-weight:bold;
-  box-shadow:0 6px 15px rgba(59,130,246,0.25);
+  color:white;
+  font-weight:700;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  box-shadow:0 8px 18px rgba(59,130,246,0.2);
 }
 
 #currentOver span:hover{
-  transform:scale(1.12);
+  transform:scale(1.08);
 }
 
 /* ===== BUTTONS ===== */
@@ -216,49 +203,47 @@ input:focus{
 }
 
 button{
-  padding:14px;
   border:none;
-  border-radius:16px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+  padding:15px;
+  border-radius:18px;
   color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
   box-shadow:0 8px 18px rgba(0,0,0,0.12);
 }
-
-/* ===== BUTTON HOVER ===== */
 
 button:hover{
   transform:translateY(-2px) scale(1.03);
 }
 
-/* ===== RUN BUTTONS ===== */
+/* RUN BUTTONS */
 
 button:nth-child(1){
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  background:linear-gradient(135deg,#60a5fa,#2563eb);
 }
 
 button:nth-child(2){
-  background:linear-gradient(135deg,#14b8a6,#06b6d4);
+  background:linear-gradient(135deg,#2dd4bf,#14b8a6);
 }
 
 button:nth-child(3){
-  background:linear-gradient(135deg,#22c55e,#16a34a);
+  background:linear-gradient(135deg,#4ade80,#22c55e);
 }
 
 button:nth-child(4){
-  background:linear-gradient(135deg,#f59e0b,#f97316);
+  background:linear-gradient(135deg,#fb923c,#f97316);
 }
 
 button:nth-child(5){
-  background:linear-gradient(135deg,#ec4899,#db2777);
+  background:linear-gradient(135deg,#f472b6,#ec4899);
 }
 
 button:nth-child(6){
-  background:linear-gradient(135deg,#8b5cf6,#7c3aed);
+  background:linear-gradient(135deg,#a78bfa,#8b5cf6);
 }
 
-/* ===== SPECIAL BUTTONS ===== */
+/* SPECIAL BUTTONS */
 
 .wide{
   background:linear-gradient(135deg,#f97316,#ea580c);
@@ -277,35 +262,38 @@ button:nth-child(6){
 }
 
 .innings{
-  background:linear-gradient(135deg,#7c3aed,#ec4899);
   grid-column:span 3;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
 }
 
 /* ===== TABLE ===== */
 
-table{
+.table-wrapper{
+  overflow-x:auto;
   width:100%;
-  border-collapse:collapse;
-  font-size:14px;
-  margin-top:10px;
-  overflow:hidden;
-  border-radius:16px;
 }
 
-th,
-td{
-  padding:10px;
-  text-align:center;
+table{
+  width:100%;
+  min-width:520px;
+  border-collapse:collapse;
+  margin-top:10px;
+  border-radius:16px;
+  overflow:hidden;
 }
 
 th{
   background:linear-gradient(135deg,#3b82f6,#8b5cf6);
   color:white;
+  padding:12px;
   font-size:13px;
 }
 
-tr{
-  border-bottom:1px solid rgba(148,163,184,0.3);
+td{
+  padding:11px;
+  text-align:center;
+  font-size:14px;
+  color:#334155;
 }
 
 tr:nth-child(even){
@@ -316,22 +304,21 @@ tr:nth-child(even){
 
 .striker{
   color:#16a34a;
-  font-weight:bold;
+  font-weight:700;
 }
 
 /* ===== RULE BOX ===== */
 
 .rule-box{
   background:linear-gradient(135deg,#ffffff,#f3e8ff);
-  text-align:left;
 }
 
 .rule-title{
-  font-size:17px;
-  font-weight:bold;
-  margin-bottom:15px;
-  color:#7c3aed;
   text-align:center;
+  font-size:17px;
+  font-weight:700;
+  margin-bottom:16px;
+  color:#7c3aed;
 }
 
 .rule-item{
@@ -339,26 +326,25 @@ tr:nth-child(even){
   justify-content:space-between;
   align-items:center;
   background:white;
-  padding:12px 14px;
+  padding:13px 14px;
   border-radius:16px;
   margin-bottom:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.06);
+  box-shadow:0 5px 14px rgba(0,0,0,0.06);
 }
 
 .rule-item span{
-  font-size:15px;
   font-weight:600;
   color:#334155;
 }
 
-/* ===== CUSTOM CHECKBOX ===== */
+/* ===== CHECKBOX ===== */
 
 .rule-item input[type="checkbox"]{
   appearance:none;
   width:52px;
   height:28px;
   background:#cbd5e1;
-  border-radius:30px;
+  border-radius:40px;
   position:relative;
   cursor:pointer;
 }
@@ -382,25 +368,21 @@ tr:nth-child(even){
   transform:translateX(22px);
 }
 
-/* ===== BOWLER ===== */
+/* ===== BOWLER BOX ===== */
 
 .bowler-box{
   background:linear-gradient(135deg,#ffffff,#dbeafe);
-  position:sticky;
-  top:10px;
 }
 
 .bowler-box h3{
   margin-top:0;
-  margin-bottom:15px;
   color:#2563eb;
 }
 
 #bowlerStats{
   margin-top:12px;
+  line-height:1.9;
   color:#334155;
-  line-height:1.8;
-  font-size:14px;
   font-weight:600;
 }
 
@@ -408,17 +390,49 @@ tr:nth-child(even){
 
 #targetText{
   color:#ea580c;
-  font-weight:bold;
   font-size:16px;
+  font-weight:700;
 }
 
-/* ===== BATSMAN SCROLL ===== */
+/* ===== SCORECARD ===== */
+
+.scorecard-box h3{
+  margin-top:0;
+  color:#7c3aed;
+}
+
+.over-history{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.over-history div{
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  color:white;
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:13px;
+  font-weight:600;
+  box-shadow:0 6px 14px rgba(59,130,246,0.2);
+}
+
+/* ===== SUMMARY ===== */
+
+.summary-box h2{
+  margin-top:0;
+  text-align:center;
+  color:#7c3aed;
+}
+
+/* ===== SCROLL FIX ===== */
 
 .batsman-box{
-  overflow-x:auto;
+  overflow:hidden;
 }
 
-/* ===== ANIMATION ===== */
+/* ===== FADE ===== */
 
 .container{
   animation:fadeIn 0.4s ease;
@@ -437,9 +451,9 @@ tr:nth-child(even){
   }
 }
 
-/* ===== MOBILE ===== */
+/* ===== TABLET ===== */
 
-@media(max-width:768px){
+@media(max-width:900px){
 
   .match-layout{
     flex-direction:column;
@@ -451,25 +465,71 @@ tr:nth-child(even){
   }
 }
 
-@media(max-width:480px){
+/* ===== MOBILE ===== */
+
+@media(max-width:600px){
+
+  body{
+    padding:10px;
+  }
+
+  h1{
+    font-size:28px;
+  }
 
   #score{
-    font-size:42px;
+    font-size:46px;
+  }
+
+  .buttons{
+    grid-template-columns:repeat(3,1fr);
   }
 
   button{
-    padding:12px;
-    font-size:15px;
-  }
-
-  th,
-  td{
-    padding:7px;
-    font-size:12px;
+    padding:13px 8px;
+    font-size:14px;
+    border-radius:14px;
   }
 
   .runrate-box{
     flex-direction:column;
+  }
+
+  .score-box,
+  .over-box,
+  .innings-box,
+  .batsman-box,
+  .rule-box,
+  .runrate-box,
+  .bowler-box,
+  .summary-box,
+  .scorecard-box{
+    padding:15px;
+    border-radius:20px;
+  }
+
+  th,
+  td{
+    padding:8px;
+    font-size:12px;
+  }
+
+  #currentOver{
     gap:8px;
+  }
+
+  #currentOver span{
+    min-width:34px;
+    padding:8px;
+    font-size:12px;
+  }
+
+  .over-history{
+    gap:8px;
+  }
+
+  .over-history div{
+    font-size:11px;
+    padding:8px 10px;
   }
 }

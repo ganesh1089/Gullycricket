@@ -31,6 +31,10 @@
 
 <body>
 
+<!-- ================= APP WRAPPER ================= -->
+
+<div class="app-wrapper">
+
 <!-- ================= SETUP SCREEN ================= -->
 
 <div
@@ -38,19 +42,27 @@
   id="setupScreen"
 >
 
-  <h1>🏏 Tap Cricket Scorer</h1>
+  <div class="top-banner">
+    🏏 LIVE CRICKET SCORER
+  </div>
 
-  <input
-    type="text"
-    id="team1"
-    placeholder="Team 1 Name"
-  >
+  <h1>Tap Cricket Scorer</h1>
 
-  <input
-    type="text"
-    id="team2"
-    placeholder="Team 2 Name"
-  >
+  <div class="setup-grid">
+
+    <input
+      type="text"
+      id="team1"
+      placeholder="Team 1 Name"
+    >
+
+    <input
+      type="text"
+      id="team2"
+      placeholder="Team 2 Name"
+    >
+
+  </div>
 
   <input
     type="number"
@@ -58,54 +70,61 @@
     placeholder="Total Overs"
   >
 
-  <input
-    type="text"
-    id="player1"
-    placeholder="Striker (Opening Batsman 1)"
-  >
+  <div class="setup-grid">
 
-  <input
-    type="text"
-    id="player2"
-    placeholder="Non-striker (Opening Batsman 2)"
-  >
+    <input
+      type="text"
+      id="player1"
+      placeholder="Opening Batsman 1"
+    >
+
+    <input
+      type="text"
+      id="player2"
+      placeholder="Opening Batsman 2"
+    >
+
+  </div>
 
   <!-- RULE SETTINGS -->
 
-  <!-- RULE SETTINGS -->
+  <div class="rule-box">
 
-<div class="rule-box">
+    <div class="rule-title">
+      Match Rules
+    </div>
 
-  <div class="rule-title">
-    Match Rules
+    <div class="rule-item">
+
+      <span>Count Wide Runs</span>
+
+      <input
+        type="checkbox"
+        id="wideRuns"
+        checked
+      >
+
+    </div>
+
+    <div class="rule-item">
+
+      <span>Count No Ball Runs</span>
+
+      <input
+        type="checkbox"
+        id="noBallRuns"
+        checked
+      >
+
+    </div>
+
   </div>
 
-  <div class="rule-item">
-    <span>Count Wide Runs</span>
-
-    <input
-      type="checkbox"
-      id="wideRuns"
-      checked
-    >
-  </div>
-
-  <div class="rule-item">
-    <span>Count No Ball Runs</span>
-
-    <input
-      type="checkbox"
-      id="noBallRuns"
-      checked
-    >
-  </div>
-
-</div>
-  <!-- BOWLER NAME -->
+  <!-- STARTING BOWLER -->
 
   <div class="bowler-box">
 
-    <h3>Starting Bowler</h3>
+    <h3>🎯 Starting Bowler</h3>
 
     <input
       type="text"
@@ -120,7 +139,7 @@
     onclick="startMatch()"
   >
 
-    Start Match
+    START MATCH
 
   </button>
 
@@ -128,13 +147,26 @@
 
 <!-- ================= MATCH SCREEN ================= -->
 
-<div class="container hidden" id="matchScreen">
+<div
+  class="container hidden"
+  id="matchScreen"
+>
 
-  <h1 id="matchTitle"></h1>
+  <!-- MATCH HEADER -->
+
+  <div class="match-header">
+
+    <h1 id="matchTitle"></h1>
+
+    <div class="live-badge">
+      ● LIVE
+    </div>
+
+  </div>
 
   <div class="match-layout">
 
-    <!-- ================= LEFT SIDE ================= -->
+    <!-- ================= LEFT PANEL ================= -->
 
     <div class="left-panel">
 
@@ -142,9 +174,15 @@
 
       <div class="innings-box">
 
-        <h2 id="inningText">1st Innings</h2>
+        <div class="innings-top">
 
-        <p id="targetText"></p>
+          <h2 id="inningText">
+            1st Innings
+          </h2>
+
+          <p id="targetText"></p>
+
+        </div>
 
       </div>
 
@@ -152,52 +190,78 @@
 
       <div class="score-box">
 
-        <h2 id="score">0/0</h2>
+        <div class="score-top">
 
-        <p id="overs">0.0 Overs</p>
+          <h2 id="score">
+            0/0
+          </h2>
+
+          <p id="overs">
+            0.0 Overs
+          </p>
+
+        </div>
 
         <!-- RUN RATE -->
 
         <div class="runrate-box">
 
-          <p id="currentRR">
-            CRR: 0.00
-          </p>
+          <div class="rr-card">
 
-          <p id="requiredRR">
-            RRR: 0.00
-          </p>
+            <span>CRR</span>
+
+            <p id="currentRR">
+              0.00
+            </p>
+
+          </div>
+
+          <div class="rr-card">
+
+            <span>RRR</span>
+
+            <p id="requiredRR">
+              0.00
+            </p>
+
+          </div>
 
         </div>
 
       </div>
 
-      <!-- BATSMAN STATS -->
+      <!-- BATSMAN TABLE -->
 
       <div class="batsman-box">
 
-        <h3>Batsmen</h3>
+        <div class="section-head">
+          🏏 Batting Scorecard
+        </div>
 
-        <table>
+        <div class="table-wrapper">
 
-          <thead>
+          <table>
 
-            <tr>
+            <thead>
 
-              <th>Name</th>
-              <th>R</th>
-              <th>B</th>
-              <th>4s</th>
-              <th>6s</th>
-              <th>SR</th>
+              <tr>
 
-            </tr>
+                <th>Name</th>
+                <th>R</th>
+                <th>B</th>
+                <th>4s</th>
+                <th>6s</th>
+                <th>SR</th>
 
-          </thead>
+              </tr>
 
-          <tbody id="batsmanTable"></tbody>
+            </thead>
 
-        </table>
+            <tbody id="batsmanTable"></tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
@@ -205,7 +269,9 @@
 
       <div class="over-box">
 
-        <h3>Current Over</h3>
+        <div class="section-head">
+          🔥 Current Over
+        </div>
 
         <div id="currentOver"></div>
 
@@ -227,23 +293,45 @@
 
         <button onclick="addRun(6)">6</button>
 
-        <button class="wide" onclick="wideBall()">
+        <button
+          class="wide"
+          onclick="wideBall()"
+        >
           WD
         </button>
 
-        <button class="noball" onclick="noBall()">
+        <button
+          class="noball"
+          onclick="noBall()"
+        >
           NB
         </button>
 
-        <button class="wicket" onclick="wicket()">
+        <button
+          class="wicket"
+          onclick="wicket()"
+        >
           W
         </button>
 
-        <button class="undo" onclick="undo()">
+        <button
+          class="retired"
+          onclick="retiredOut()"
+        >
+          RET
+        </button>
+
+        <button
+          class="undo"
+          onclick="undo()"
+        >
           UNDO
         </button>
 
-        <button class="innings" onclick="endInnings()">
+        <button
+          class="innings"
+          onclick="endInnings()"
+        >
           END INNINGS
         </button>
 
@@ -251,21 +339,50 @@
 
     </div>
 
-    <!-- ================= RIGHT SIDE ================= -->
+    <!-- ================= RIGHT PANEL ================= -->
 
     <div class="right-panel">
 
-      <div class="bowler-box">
+      <!-- CURRENT BOWLER -->
 
-        <h3>Current Bowler</h3>
+      <div class="bowler-box live-panel">
 
-        <input
-          type="text"
-          id="bowlerName"
-          placeholder="Bowler Name"
-        >
+        <div class="section-head">
+          🎯 Current Bowler
+        </div>
 
         <div id="bowlerStats"></div>
+
+      </div>
+
+      <!-- MATCH INFO -->
+
+      <div class="mini-box">
+
+        <div class="section-head">
+          📊 Match Info
+        </div>
+
+        <p>
+          <strong>Total Overs:</strong>
+          <span id="totalOversShow">
+            --
+          </span>
+        </p>
+
+        <p>
+          <strong>Batting:</strong>
+          <span id="battingTeamShow">
+            --
+          </span>
+        </p>
+
+        <p>
+          <strong>Bowling:</strong>
+          <span id="bowlingTeamShow">
+            --
+          </span>
+        </p>
 
       </div>
 
@@ -274,14 +391,17 @@
   </div>
 
 </div>
-<!-- ================= MATCH SUMMARY ================= -->
+
+<!-- ================= SUMMARY ================= -->
 
 <div
   class="summary-box hidden"
   id="summaryBox"
 >
 
-  <h2>🏆 Match Summary</h2>
+  <h2>
+    🏆 Match Summary
+  </h2>
 
   <div id="summaryContent"></div>
 
@@ -290,9 +410,11 @@
     onclick="resetMatch()"
   >
 
-    END MATCH
+    NEW MATCH
 
   </button>
+
+</div>
 
 </div>
 

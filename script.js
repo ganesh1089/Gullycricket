@@ -22,6 +22,8 @@ let overs = 0;
 
 let currentOver = [];
 
+let overHistory = [];
+
 let history = [];
 
 // ================= BATSMEN =================
@@ -87,7 +89,8 @@ function createBatsman(name){
     balls:0,
     fours:0,
     sixes:0,
-    out:false
+    out:false,
+    status:"not out"
   };
 }
 
@@ -324,8 +327,14 @@ function saveHistory(){
 
     currentOver:[...currentOver],
 
+    overHistory:[...overHistory],
+
     batsmen:JSON.parse(
       JSON.stringify(batsmen)
+    ),
+
+    bowlers:JSON.parse(
+      JSON.stringify(bowlers)
     ),
 
     strikerIndex,
@@ -413,6 +422,9 @@ function wicket(){
 
   batsmen[strikerIndex].out = true;
 
+  batsmen[strikerIndex].status =
+    `b ${currentBowler.name}`;
+
   currentBowler.balls++;
 
   currentBowler.wickets++;
@@ -455,6 +467,38 @@ function wicket(){
   checkWinner();
 }
 
+// ================= RETIRED =================
+
+function retiredOut(){
+
+  saveHistory();
+
+  batsmen[strikerIndex].out = true;
+
+  batsmen[strikerIndex].status =
+    "Retired Out";
+
+  wickets++;
+
+  let newName =
+    prompt(
+      `Enter Batsman ${nextBatsmanNumber} Name`
+    );
+
+  batsmen.push(
+    createBatsman(
+      newName || `Batsman ${nextBatsmanNumber}`
+    )
+  );
+
+  strikerIndex =
+    batsmen.length - 1;
+
+  nextBatsmanNumber++;
+
+  updateUI();
+}
+
 // ================= WIDE =================
 
 function wideBall(){
@@ -483,14 +527,38 @@ function noBall(){
 
   saveHistory();
 
-  if(countNoBallRuns){
+  let extraRun =
+    Number(
+      prompt(
+        "Bat se kitne run aaye?"
+      )
+    ) || 0;
 
-    runs++;
+  runs += 1 + extraRun;
 
-    currentBowler.runs++;
+  currentBowler.runs += 1 + extraRun;
+
+  let striker =
+    batsmen[strikerIndex];
+
+  striker.runs += extraRun;
+
+  if(extraRun > 0){
+
+    striker.balls++;
   }
 
-  currentOver.push("NB");
+  if(extraRun === 4){
+
+    striker.fours++;
+  }
+
+  if(extraRun === 6){
+
+    striker.sixes++;
+  }
+
+  currentOver.push(`NB+${extraRun}`);
 
   updateUI();
 }
@@ -502,6 +570,11 @@ function checkOver(){
   if(balls === 6){
 
     overs++;
+
+    overHistory.push(
+      `Over ${overs}: ${currentOver.join(" ")}`
+    );
+
     balls = 0;
 
     currentOver = [];
@@ -574,7 +647,11 @@ function undo(){
 
   currentOver = last.currentOver;
 
+  overHistory = last.overHistory;
+
   batsmen = last.batsmen;
+
+  bowlers = last.bowlers;
 
   strikerIndex = last.strikerIndex;
 
@@ -593,6 +670,28 @@ function undo(){
 
 function endInnings(){
 
+  // save current bowler
+
+  let existingBowler =
+    bowlers.find(
+      b => b.name === currentBowler.name
+    );
+
+  if(existingBowler){
+
+    existingBowler.runs += currentBowler.runs;
+
+    existingBowler.wickets += currentBowler.wickets;
+
+    existingBowler.balls += currentBowler.balls;
+
+  }else{
+
+    bowlers.push({
+      ...currentBowler
+    });
+  }
+
  inningsData.push({
 
   innings,
@@ -609,6 +708,10 @@ function endInnings(){
 
   bowlers: JSON.parse(
     JSON.stringify(bowlers)
+  ),
+
+  oversList: JSON.parse(
+    JSON.stringify(overHistory)
   )
 });
 
@@ -634,7 +737,11 @@ function endInnings(){
 
     currentOver = [];
 
+    overHistory = [];
+
     history = [];
+
+    bowlers = [];
 
     currentBowler = {
       name:"",
@@ -691,8 +798,6 @@ function checkWinner(force = false){
   if(innings !== 2)
     return;
 
-  // chasing team wins
-
   if(runs > firstInningsScore){
 
     setTimeout(()=>{
@@ -707,8 +812,6 @@ function checkWinner(force = false){
 
     return;
   }
-
-  // innings complete
 
   if(force || overs === totalOvers){
 
@@ -762,6 +865,7 @@ function showSummary(){
             <th>B</th>
             <th>4s</th>
             <th>6s</th>
+            <th>Status</th>
           </tr>
 
     `;
@@ -772,10 +876,7 @@ function showSummary(){
 
         <tr>
 
-          <td>
-            ${player.name}
-            ${player.out ? "" : "*"}
-          </td>
+          <td>${player.name}</td>
 
           <td>${player.runs}</td>
 
@@ -784,6 +885,8 @@ function showSummary(){
           <td>${player.fours}</td>
 
           <td>${player.sixes}</td>
+
+          <td>${player.status}</td>
 
         </tr>
 
@@ -832,6 +935,31 @@ function showSummary(){
 
     html += `
         </table>
+
+        <h3 style="margin-top:20px;">
+          Over Summary
+        </h3>
+
+        <div style="
+          text-align:left;
+          margin-top:10px;
+          background:#0f172a;
+          padding:15px;
+          border-radius:12px;
+        ">
+
+    `;
+
+    inn.oversList.forEach(over=>{
+
+      html += `
+        <p>${over}</p>
+      `;
+    });
+
+    html += `
+        </div>
+
       </div>
     `;
   });
@@ -860,6 +988,8 @@ function resetMatch(){
 
   currentOver = [];
 
+  overHistory = [];
+
   history = [];
 
   innings = 1;
@@ -869,7 +999,9 @@ function resetMatch(){
   inningsData = [];
 
   batsmen = [];
-bowlers = [];
+
+  bowlers = [];
+
   strikerIndex = 0;
 
   nonStrikerIndex = 1;
